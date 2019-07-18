@@ -52,10 +52,12 @@ def main(_):
         val_idx = [idx for idx in range(len(X_Test) / batch_size)]
         random.shuffle(val_idx)
         for j in train_idx:
+            opt = sess.run([train_op], feed_dict={x: X_Train[j * batch_size:(j + 1) * batch_size, :],
+                                                  y: y_Train[j * batch_size:(j + 1) * batch_size, :]})
             train_loss = sess.run([loss], feed_dict={x: X_Train[j * batch_size:(j + 1) * batch_size, :],
                                                      y: y_Train[j * batch_size:(j + 1) * batch_size, :]})
             total_train_loss = total_train_loss + train_loss[0]
-
+            
         for k in val_idx:
             val_loss = sess.run([loss], feed_dict={x: X_Test[k * batch_size:(k + 1) * batch_size, :],
                                                    y: y_Test[k * batch_size:(k + 1) * batch_size, :]})
